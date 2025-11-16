@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - Library Management System</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.svg">
+    <lin1k rel="mask-icon" href="favicon.svg" color="#2563eb">
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-small">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                </div>
+                <h2>Library MS</h2>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <span class="icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="books.html" class="nav-item">
+                    <span class="icon">📚</span>
+                    <span>Books</span>
+                </a>
+                <a href="members.html" class="nav-item">
+                    <span class="icon">👥</span>
+                    <span>Members</span>
+                </a>
+                <a href="loans.html" class="nav-item">
+                    <span class="icon">🔄</span>
+                    <span>Loans</span>
+                </a>
+                <a href="fines.html" class="nav-item">
+                    <span class="icon">💰</span>
+                    <span>Fines</span>
+                </a>
+                <a href="reports.html" class="nav-item active">
+                    <span class="icon">📈</span>
+                    <span>Reports</span>
+                </a>
+                <a href="staff.html" class="nav-item" id="staffLink" style="display: none;">
+                    <span class="icon">👔</span>
+                    <span>Staff</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button onclick="logout()" class="btn btn-danger btn-block">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <div>
+                    <h1>Reports & Analytics</h1>
+                    <p class="text-muted">Library performance insights</p>
+                </div>
+            </header>
+
+            <!-- Most Borrowed Books -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>📚 Top 10 Most Borrowed Books</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Title</th>
+                                    <th>Author</th>
+                                    <th>Category</th>
+                                    <th>Borrow Count</th>
+                                </tr>
+                            </thead>
+                            <tbody id="mostBorrowedTable">
+                                <tr>
+                                    <td colspan="5" class="text-center">
+                                        <div class="loader" style="margin: 20px auto;"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Most Active Members -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>👥 Top 10 Most Active Members</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Name</th>
+                                    <th>Membership No</th>
+                                    <th>Email</th>
+                                    <th>Books Borrowed</th>
+                                </tr>
+                            </thead>
+                            <tbody id="activeMembersTable">
+                                <tr>
+                                    <td colspan="5" class="text-center">
+                                        <div class="loader" style="margin: 20px auto;"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Late Return Trends -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>⚠️ Late Return Trends</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Member Name</th>
+                                    <th>Membership No</th>
+                                    <th>Late Returns</th>
+                                    <th>Avg. Late Days</th>
+                                </tr>
+                            </thead>
+                            <tbody id="lateReturnsTable">
+                                <tr>
+                                    <td colspan="4" class="text-center">
+                                        <div class="loader" style="margin: 20px auto;"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Monthly Statistics -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>📊 Monthly Statistics (Last 6 Months)</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Month</th>
+                                    <th>Books Issued</th>
+                                    <th>Books Returned</th>
+                                </tr>
+                            </thead>
+                            <tbody id="monthlyStatsTable">
+                                <tr>
+                                    <td colspan="3" class="text-center">
+                                        <div class="loader" style="margin: 20px auto;"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/reports.js"></script>
+</body>
+</html>

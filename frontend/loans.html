@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loans - Library Management System</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.svg">
+    <lin1k rel="mask-icon" href="favicon.svg" color="#2563eb">
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-small">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                </div>
+                <h2>Library MS</h2>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <span class="icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="books.html" class="nav-item">
+                    <span class="icon">📚</span>
+                    <span>Books</span>
+                </a>
+                <a href="members.html" class="nav-item">
+                    <span class="icon">👥</span>
+                    <span>Members</span>
+                </a>
+                <a href="loans.html" class="nav-item active">
+                    <span class="icon">🔄</span>
+                    <span>Loans</span>
+                </a>
+                <a href="fines.html" class="nav-item">
+                    <span class="icon">💰</span>
+                    <span>Fines</span>
+                </a>
+                <a href="reports.html" class="nav-item">
+                    <span class="icon">📈</span>
+                    <span>Reports</span>
+                </a>
+                <a href="staff.html" class="nav-item" id="staffLink" style="display: none;">
+                    <span class="icon">👔</span>
+                    <span>Staff</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button onclick="logout()" class="btn btn-danger btn-block">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <div>
+                    <h1>Loans Management</h1>
+                    <p class="text-muted">Issue and return books</p>
+                </div>
+                <button class="btn btn-primary" onclick="showIssueModal()">+ Issue Book</button>
+            </header>
+
+            <!-- Filter -->
+            <div class="search-bar">
+                <select id="statusFilter" class="form-group" style="width: 200px; margin: 0;">
+                    <option value="">All Status</option>
+                    <option value="issued">Issued</option>
+                    <option value="returned">Returned</option>
+                    <option value="overdue">Overdue</option>
+                </select>
+                <button class="btn btn-primary" onclick="loadLoans()">Filter</button>
+            </div>
+
+            <!-- Loans Table -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Loan ID</th>
+                                    <th>Book</th>
+                                    <th>Member</th>
+                                    <th>Issue Date</th>
+                                    <th>Due Date</th>
+                                    <th>Return Date</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="loansTable">
+                                <tr>
+                                    <td colspan="8" class="text-center">
+                                        <div class="loader" style="margin: 20px auto;"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Issue Book Modal -->
+    <div id="issueModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Issue Book</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="issueForm">
+                    <div class="form-group">
+                        <label for="bookSelect">Select Book *</label>
+                        <select id="bookSelect" required>
+                            <option value="">Loading books...</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="memberSelect">Select Member *</label>
+                        <select id="memberSelect" required>
+                            <option value="">Loading members...</option>
+                        </select>
+                    </div>
+
+                    <div id="modalError" class="error-message" style="display: none;"></div>
+                    <div id="modalSuccess" class="success-message" style="display: none;"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="issueBook()">Issue Book</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/loans.js"></script>
+</body>
+</html>

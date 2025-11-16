@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Books - Library Management System</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.svg">
+    <lin1k rel="mask-icon" href="favicon.svg" color="#2563eb">
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-small">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                </div>
+                <h2>Library MS</h2>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <span class="icon">📊</span>
+                    <span>Dashboard</span>
+                </a>
+                <a href="books.html" class="nav-item active">
+                    <span class="icon">📚</span>
+                    <span>Books</span>
+                </a>
+                <a href="members.html" class="nav-item">
+                    <span class="icon">👥</span>
+                    <span>Members</span>
+                </a>
+                <a href="loans.html" class="nav-item">
+                    <span class="icon">🔄</span>
+                    <span>Loans</span>
+                </a>
+                <a href="fines.html" class="nav-item">
+                    <span class="icon">💰</span>
+                    <span>Fines</span>
+                </a>
+                <a href="reports.html" class="nav-item">
+                    <span class="icon">📈</span>
+                    <span>Reports</span>
+                </a>
+                <a href="staff.html" class="nav-item" id="staffLink" style="display: none;">
+                    <span class="icon">👔</span>
+                    <span>Staff</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button onclick="logout()" class="btn btn-danger btn-block">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <div>
+                    <h1>Books Management</h1>
+                    <p class="text-muted">Manage library books inventory</p>
+                </div>
+                <button class="btn btn-primary" onclick="showAddModal()">+ Add Book</button>
+            </header>
+
+            <!-- Search & Filter -->
+            <div class="search-bar">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search by title, author, or ISBN...">
+                <select id="categoryFilter" class="form-group" style="width: 200px; margin: 0;">
+                    <option value="">All Categories</option>
+                </select>
+                <button class="btn btn-primary" onclick="loadBooks()">Search</button>
+            </div>
+
+            <!-- Books Table -->
+            <div class="card">
+                <div class="card-body">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ISBN</th>
+                                    <th>Title</th>
+                                    <th>Author</th>
+                                    <th>Category</th>
+                                    <th>Location</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="booksTable">
+                                <tr>
+                                    <td colspan="8" class="text-center">
+                                        <div class="loader" style="margin: 20px auto;"></div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Book Modal -->
+    <div id="bookModal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add Book</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="bookForm">
+                    <input type="hidden" id="bookId">
+                    
+                    <div class="form-group">
+                        <label for="isbn">ISBN *</label>
+                        <input type="text" id="isbn" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="title">Title *</label>
+                        <input type="text" id="title" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="author">Author *</label>
+                        <input type="text" id="author" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="category">Category *</label>
+                        <input type="text" id="category" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="location">Location *</label>
+                        <input type="text" id="location" placeholder="e.g., Shelf A1" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="quantity">Quantity *</label>
+                        <input type="number" id="quantity" min="0" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="price">Price (₹) *</label>
+                        <input type="number" id="price" step="0.01" min="0" required>
+                    </div>
+
+                    <div id="modalError" class="error-message" style="display: none;"></div>
+                    <div id="modalSuccess" class="success-message" style="display: none;"></div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveBook()">Save Book</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/books.js"></script>
+</body>
+</html>
