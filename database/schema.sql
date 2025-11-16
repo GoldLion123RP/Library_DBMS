@@ -1,12 +1,25 @@
 -- ==========================================================
--- Library Management System - Complete Schema
+-- Library Management System - Cloud Deployment Schema
 -- Admin: Rahul Pal
 -- Brainware University | DBMS Lab Project
 -- ==========================================================
 
-DROP DATABASE IF EXISTS LibraryDB;
-CREATE DATABASE LibraryDB;
-USE LibraryDB;
+-- Drop existing tables if they exist
+SET FOREIGN_KEY_CHECKS = 0;
+
+DROP TABLE IF EXISTS BorrowHistory;
+DROP TABLE IF EXISTS Fines;
+DROP TABLE IF EXISTS Loans;
+DROP TABLE IF EXISTS Members;
+DROP TABLE IF EXISTS Books;
+DROP TABLE IF EXISTS BookDetails;
+DROP TABLE IF EXISTS AuthenticationSystem;
+DROP TABLE IF EXISTS Staff;
+DROP TABLE IF EXISTS Users;
+DROP TABLE IF EXISTS Roles;
+DROP TABLE IF EXISTS Author;
+
+SET FOREIGN_KEY_CHECKS = 1;
 
 -- ==========================================================
 -- TABLE CREATION
@@ -242,48 +255,9 @@ JOIN Members m ON l.member_id = m.id
 JOIN Books b ON l.book_id = b.id;
 
 -- ==========================================================
--- VERIFICATION QUERIES
--- ==========================================================
-
--- Show all tables
-SHOW TABLES;
-
--- Count records in each table
-SELECT 'Roles' AS TableName, COUNT(*) AS RecordCount FROM Roles
-UNION ALL
-SELECT 'Users', COUNT(*) FROM Users
-UNION ALL
-SELECT 'Staff', COUNT(*) FROM Staff
-UNION ALL
-SELECT 'Author', COUNT(*) FROM Author
-UNION ALL
-SELECT 'BookDetails', COUNT(*) FROM BookDetails
-UNION ALL
-SELECT 'Books', COUNT(*) FROM Books
-UNION ALL
-SELECT 'Members', COUNT(*) FROM Members
-UNION ALL
-SELECT 'Loans', COUNT(*) FROM Loans
-UNION ALL
-SELECT 'Fines', COUNT(*) FROM Fines;
-
--- Verify Admin User
-SELECT 
-    s.StaffID,
-    s.FirstName,
-    s.LastName,
-    s.Username,
-    s.Role,
-    a.Password
-FROM Staff s
-JOIN AuthenticationSystem a ON s.StaffID = a.StaffID
-WHERE s.Role = 'Admin';
-
--- ==========================================================
 -- END OF SCHEMA
 -- ==========================================================
 
--- Success Message
-SELECT '✅ Database LibraryDB created successfully!' AS Status;
+SELECT '✅ Database setup complete!' AS Status;
 SELECT '✅ All tables created and populated!' AS Status;
 SELECT '✅ Admin User: rahul.pal | Password: rahul123' AS Status;
