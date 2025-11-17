@@ -885,3 +885,17 @@ table tbody tr:hover {
         margin-right: 10px;
     }
 }
+
+/* ============================================
+   EASY FIX: Hamburger Icon Position Fix
+============================================ */
+
+/* Add a smooth transition for the movement */
+.hamburger {
+    transition: transform 0.3s ease;
+}
+
+/* When the hamburger is active (an 'X'), move it to the right */
+.hamburger.active {
+    transform: translateX(280px);
+}
