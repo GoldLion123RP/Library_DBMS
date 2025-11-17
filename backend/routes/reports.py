@@ -142,7 +142,7 @@ def get_monthly_stats():
                 COUNT(*) as total_issues,
                 SUM(CASE WHEN status = 'returned' THEN 1 ELSE 0 END) as total_returns
             FROM Loans
-            WHERE issue_date >= DATE_SUB(CURDATE(), INTERVAL 6 MONTH)
+            WHERE issue_date >= DATE_SUB(CURDATE(), INTERVAL 18 MONTH)
             GROUP BY DATE_FORMAT(issue_date, '%%Y-%%m')
             ORDER BY month DESC
         """
