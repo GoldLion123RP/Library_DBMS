@@ -11,13 +11,11 @@
 
 ## 🌐 Live Demo
 
-**🔗 Application:** [https://goldlion123rp.github.io/Library_DBMS/](https://goldlion123rp.github.io/Library_DBMS/)
+**🔗 Application:** <a href="https://goldlion123rp.github.io/Library_DBMS/" target="_blank">https://goldlion123rp.github.io/Library_DBMS/</a>
 
-**🔗 Backend API:** [https://library-dbms-1tp2.onrender.com](https://library-dbms-1tp2.onrender.com)
+**🔗 Backend API:** <a href="https://library-dbms-1tp2.onrender.com" target="_blank">https://library-dbms-1tp2.onrender.com</a>
 
-**🔗 Source Code:** [https://github.com/goldlion123rp/Library_DBMS](https://github.com/goldlion123rp/Library_DBMS)
-
-
+**🔗 Source Code:** <a href="https://github.com/goldlion123rp/Library_DBMS" target="_blank">https://github.com/goldlion123rp/Library_DBMS</a>
 
 > **Note:** First load may take 30-60 seconds as the free backend server wakes up. Subsequent requests are fast.
 
