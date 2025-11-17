@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Logs - Library Management System</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="alternate icon" href="favicon.svg">
+    <link rel="mask-icon" href="favicon.svg" color="#2563eb">
+
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="logo-small">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+                        <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"></path>
+                    </svg>
+                </div>
+                <h2>Library MS</h2>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item">
+                    <span class="icon">📊</span><span>Dashboard</span>
+                </a>
+                <a href="books.html" class="nav-item">
+                    <span class="icon">📚</span><span>Books</span>
+                </a>
+                <a href="members.html" class="nav-item">
+                    <span class="icon">👥</span><span>Members</span>
+                </a>
+                <a href="loans.html" class="nav-item">
+                    <span class="icon">🔄</span><span>Loans</span>
+                </a>
+                <a href="fines.html" class="nav-item">
+                    <span class="icon">💰</span><span>Fines</span>
+                </a>
+                <a href="reports.html" class="nav-item">
+                    <span class="icon">📈</span><span>Reports</span>
+                </a>
+                <a href="staff.html" class="nav-item" id="staffLink" style="display: none;">
+                    <span class="icon">👔</span><span>Staff</span>
+                </a>
+                <a href="login-logs.html" class="nav-item active" id="loginLogsLink" style="display: none;">
+                    <span class="icon">🔐</span><span>Login Logs</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <button onclick="logout()" class="btn btn-danger btn-block">Logout</button>
+            </div>
+        </aside>
+
+        <!-- Sidebar Overlay for Mobile -->
+        <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="page-header">
+                <div>
+                    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+                        <span></span><span></span><span></span>
+                    </button>
+                    <div>
+                        <h1>Login Audit Logs</h1>
+                        <p class="text-muted">Security & Access Monitoring (Admin Only)</p>
+                    </div>
+                </div>
+            </header>
+
+            <!-- Stats -->
+            <div class="stats-grid">
+                <div class="stat-card stat-blue">
+                    <div class="stat-icon">🔐</div>
+                    <div class="stat-details">
+                        <h3 id="todayLogins">0</h3>
+                        <p>Today's Logins</p>
+                    </div>
+                </div>
+                <div class="stat-card stat-red">
+                    <div class="stat-icon">❌</div>
+                    <div class="stat-details">
+                        <h3 id="todayFailed">0</h3>
+                        <p>Failed Attempts Today</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Filters -->
+            <div class="search-bar">
+                <input type="text" id="usernameFilter" placeholder="Filter by username..." class="search-input">
+                <select id="statusFilter" class="form-group" style="width: 200px; margin: 0;">
+                    <option value="">All Status</option>
+                    <option value="success">Success</option>
+                    <option value="failed">Failed</option>
+                </select>
+                <button class="btn btn-primary" onclick="loadLogs()">Filter</button>
+            </div>
+
+            <!-- Logs Table -->
+            <div class="card">
+                <div class="card-header">
+                    <h3>Login History (Last 100 records)</h3>
+                </div>
+                <div class="card-body">
+                    <div class="table-container">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Time</th>
+                                    <th>Username</th>
+                                    <th>Full Name</th>
+                                    <th>Status</th>
+                                    <th>IP Address</th>
+                                    <th>Failure Reason</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logsTable">
+                                <tr><td colspan="6" class="text-center"><div class="loader" style="margin: 20px auto;"></div></td></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="js/config.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/mobile.js"></script>
+    <script>
+        checkAuth();
+        if (!isAdmin()) {
+            alert('Admin access required');
+            window.location.href = 'dashboard.html';
+        } else {
+            // Show admin links
+            document.getElementById('staffLink').style.display = 'flex';
+            document.getElementById('loginLogsLink').style.display = 'flex';
+        }
+
+        async function loadLogs() {
+            const username = document.getElementById('usernameFilter').value;
+            const status = document.getElementById('statusFilter').value;
+            
+            let url = '/auth/login-logs?';
+            if (username) url += `username=${username}&`;
+            if (status) url += `status=${status}&`;
+            
+            try {
+                const result = await apiCall(url);
+                const tbody = document.getElementById('logsTable');
+                
+                if (!result.logs || result.logs.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" class="text-center text-muted">No logs found</td></tr>';
+                    return;
+                }
+                
+                let html = '';
+                result.logs.forEach(log => {
+                    const statusBadge = log.login_status === 'success' 
+                        ? '<span class="badge badge-green">Success</span>'
+                        : '<span class="badge badge-red">Failed</span>';
+                    
+                    html += `
+                        <tr>
+                            <td>${log.login_attempt_time}</td>
+                            <td><strong>${log.username}</strong></td>
+                            <td>${log.full_name || '-'}</td>
+                            <td>${statusBadge}</td>
+                            <td>${log.ip_address || '-'}</td>
+                            <td>${log.failure_reason || '-'}</td>
+                        </tr>
+                    `;
+                });
+                tbody.innerHTML = html;
+            } catch (error) {
+                console.error('Error loading logs:', error);
+                document.getElementById('logsTable').innerHTML = 
+                    '<tr><td colspan="6" class="text-center text-red">Error loading logs</td></tr>';
+            }
+        }
+
+        async function loadStats() {
+            try {
+                const result = await apiCall('/auth/login-stats');
+                if (result.success) {
+                    document.getElementById('todayLogins').textContent = result.stats.today_logins;
+                    document.getElementById('todayFailed').textContent = result.stats.today_failed;
+                }
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+
+        loadLogs();
+        loadStats();
+    </script>
+</body>
+</html>
