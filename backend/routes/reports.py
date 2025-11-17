@@ -197,3 +197,4 @@ def get_late_return_trends():
     except Exception as e:
         print(f"Late returns error: {str(e)}")
         return jsonify({'success': True, 'error': str(e), 'late_return_trends': []}), 200
+    
