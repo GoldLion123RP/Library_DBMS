@@ -17,6 +17,8 @@
 
 **🔗 Source Code:** [https://github.com/goldlion123rp/Library_DBMS](https://github.com/goldlion123rp/Library_DBMS)
 
+
+
 > **Note:** First load may take 30-60 seconds as the free backend server wakes up. Subsequent requests are fast.
 
 ---
@@ -68,6 +70,7 @@
 - ✅ **Secure API Endpoints** - Protected routes with authorization
 - ✅ **Input Validation** - Client and server-side validation
 - ✅ **CORS Protection** - Configured cross-origin policies
+- ✅ **Login Audit Logging** - Tracks all login attempts with IP, user agent, and status
 
 ### 📱 Mobile Features
 - ✅ **Hamburger Menu** - Animated slide-in navigation
@@ -106,7 +109,7 @@
 
 ## 📊 Database Schema
 
-### Tables (11 total)
+### Tables (12 total)
 1. **Roles** - User role definitions (Admin, Librarian, Assistant)
 2. **Users** - System users with role assignments
 3. **Staff** - Library staff information and credentials
@@ -118,6 +121,7 @@
 9. **Loans** - Borrowing transactions and status tracking
 10. **Fines** - Overdue fine calculations and payment status
 11. **BorrowHistory** - Historical data for analytics
+12. **LoginAuditLog** - Security logging for login attempts
 
 ### Relationships & Integrity
 - Foreign key constraints for referential integrity
@@ -370,6 +374,12 @@ For complete deployment guide, see [DEPLOYMENT.md](https://www.google.com/search
   - **Role Assignment:** Admin, Librarian, Assistant
   - **Credential Management:** Username and password setup
 
+### Security & Auditing
+- **Login Audit Logs:** New admin-only page to monitor all successful and failed login attempts.
+- **Detailed Logging:** Captures username, timestamp, IP address, user agent, and failure reason.
+- **Security Dashboard:** Displays stats like today's logins and failed attempts.
+- **Role Protection:** The new page is strictly for Admin users.
+
 -----
 
 ## 🧪 Testing
@@ -452,6 +462,9 @@ All protected endpoints require authentication header:
 ```
 Authorization: Bearer {token}
 ```
+#### Login Audit (Admin Only)
+- `GET /api/auth/login-logs` - Get all login logs
+- `GET /api/auth/login-stats` - Get login statistics
 
 ### Response Format
 
@@ -537,6 +550,7 @@ Library_DBMS/
 ├── books.html                # Books module
 ├── members.html              # Members module
 ├── loans.html                # Loans module
+├── login-logs.html           # Login audit log page ⭐ NEW
 ├── fines.html                # Fines module
 ├── reports.html              # Reports module
 ├── staff.html                # Staff module
@@ -579,11 +593,10 @@ Library_DBMS/
   - ❌ IE11 not supported
 
 ### Mobile Experience
-
-  - ✅ Fully responsive on all devices
-  - ✅ Touch-optimized controls
-  - ✅ Hamburger navigation menu
-  - ⚠️ Tables scroll horizontally on small screens
+- ✅ Fully responsive on all devices
+- ✅ Touch-optimized controls
+- ✅ Hamburger navigation menu
+- ⚠️ Tables scroll horizontally on small screens due to large data content.
 
 -----
 
