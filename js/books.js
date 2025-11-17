@@ -3,8 +3,8 @@ checkAuth();
 const user = getUser();
 if (isAdmin()) {
     document.getElementById('staffLink').style.display = 'flex';
+    document.getElementById('loginLogsLink').style.display = 'flex';
 }
-
 let currentBookId = null;
 
 // Load books on page load

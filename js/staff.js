@@ -2,6 +2,11 @@ checkAuth();
 
 const user = getUser();
 
+if (isAdmin()) {
+    document.getElementById('staffLink').style.display = 'flex';
+    document.getElementById('loginLogsLink').style.display = 'flex';
+}
+
 // Check if user is Admin
 if (!isAdmin()) {
     alert('Access denied. Admin only.');

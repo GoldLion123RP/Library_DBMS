@@ -9,6 +9,7 @@ document.getElementById('userRole').textContent = user.role;
 // Show staff link only for admin
 if (isAdmin()) {
     document.getElementById('staffLink').style.display = 'flex';
+    document.getElementById('loginLogsLink').style.display = 'flex';
 }
 
 // Load dashboard data
